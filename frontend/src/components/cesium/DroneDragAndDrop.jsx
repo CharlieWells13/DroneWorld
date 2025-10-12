@@ -97,6 +97,11 @@ const DroneDragAndDrop = ({ viewerReady, viewerRef, setCameraByPosition }) => {
       {mainJson.getAllDrones().map((drone, index) => {
         if (!drone.X || !drone.Y || !drone.Z) return null;
         const position = Cartesian3.fromDegrees(drone.Y, drone.X, drone.Z);
+        const missionColors = {
+          circle: Color.BLACK,
+          square: Color.WHITE,
+        };
+        const missionColor = missionColors[drone.missionType] || Color.GRAY;
         return (
           <React.Fragment key={index}>
             <Entity
@@ -118,7 +123,7 @@ const DroneDragAndDrop = ({ viewerReady, viewerRef, setCameraByPosition }) => {
                 verticalOrigin: VerticalOrigin.TOP,
                 pixelOffset: new Cartesian2(0, -55),
                 disableDepthTestDistance: Number.POSITIVE_INFINITY,
-                distanceDisplayCondition: new DistanceDisplayCondition(0.0, 5000.0),
+                distanceDisplayCondition: new DistanceDisplayCondition(0.0, 40000.0),
               }}
             />
             <Entity
@@ -126,8 +131,8 @@ const DroneDragAndDrop = ({ viewerReady, viewerRef, setCameraByPosition }) => {
               point={{
                 pixelSize: 5,
                 color: drone.color,
-                outlineColor: Color.WHITE,
-                outlineWidth: 2,
+                outlineColor: missionColor,
+                outlineWidth: 3,
                 disableDepthTestDistance: Number.POSITIVE_INFINITY,
               }}
             />
